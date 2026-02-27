@@ -1,0 +1,13 @@
+{
+  "name": "app-traduction",
+  "version": "1.0.0",
+  "description": "Application web de traduction (frontend) connectee a une API locale Docker",
+  "private": true,
+  "scripts": {
+    "start": "npx serve public -l 3000",
+    "dev": "npx serve public -l 3000"
+  },
+  "keywords": ["traduction", "translation", "frontend", "libretranslate"],
+  "author": "",
+  "license": "ISC"
+}
