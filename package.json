@@ -5,9 +5,19 @@
   "private": true,
   "scripts": {
     "start": "npx serve public -l 3000",
-    "dev": "npx serve public -l 3000"
+    "dev": "npx serve public -l 3000",
+    "deploy": "wrangler deploy",
+    "preview": "wrangler dev"
   },
-  "keywords": ["traduction", "translation", "frontend", "libretranslate"],
+  "keywords": [
+    "traduction",
+    "translation",
+    "frontend",
+    "libretranslate"
+  ],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "wrangler": "^4.69.0"
+  }
 }
