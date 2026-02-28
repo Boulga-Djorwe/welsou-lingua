@@ -1,0 +1,16 @@
+services:
+  traduction-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: traduction-app
+    restart: unless-stopped
+    environment:
+      LT_LOAD_ONLY: fr,en
+    volumes:
+      - ./argos-seed:/home/libretranslate/.local/share/argos-translate
+    dns:
+      - 1.1.1.1
+      - 8.8.8.8
+    ports:
+      - "3000:5000"
