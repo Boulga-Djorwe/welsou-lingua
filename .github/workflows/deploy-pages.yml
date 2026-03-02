@@ -27,6 +27,12 @@ jobs:
       - name: Setup Pages
         uses: actions/configure-pages@v5
 
+      - name: Prepare static paths for Pages
+        run: |
+          mkdir -p public/static
+          cp public/Styles.css public/static/Styles.css
+          cp public/app.js public/static/app.js
+
       - name: Upload site artifact
         uses: actions/upload-pages-artifact@v3
         with:
