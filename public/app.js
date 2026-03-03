@@ -57,7 +57,31 @@ let stats = JSON.parse(localStorage.getItem(statsStorageKey)) || {
 };
 let lastTranslation = null;
 let lastDetectedSourceLang = null;
-const API_BASE_URL = '';
+const API_BASE_URL = resolveApiBaseUrl();
+
+function normalizeApiBaseUrl(value) {
+    if (!value || typeof value !== 'string') return '';
+    return value.trim().replace(/\/+$/, '');
+}
+
+function resolveApiBaseUrl() {
+    const fromGlobalConfig = normalizeApiBaseUrl(window.APP_CONFIG?.API_BASE_URL);
+
+    const fromQuery = normalizeApiBaseUrl(
+        new URLSearchParams(window.location.search).get('api')
+    );
+
+    const fromStorage = normalizeApiBaseUrl(
+        localStorage.getItem('welsou_api_base_url')
+    );
+
+    const fromMeta = normalizeApiBaseUrl(
+        document.querySelector('meta[name="api-base-url"]')?.content
+    );
+
+    // Priority: query > config.js > localStorage > meta > same-origin
+    return fromQuery || fromGlobalConfig || fromStorage || fromMeta || '';
+}
 
 // ===============================================
 // PARTICLES ANIMATION
@@ -122,6 +146,12 @@ window.addEventListener('resize', () => {
 // ===============================================
 async function loadLanguages() {
     try {
+        if (window.location.hostname.endsWith('github.io') && !API_BASE_URL) {
+            throw new Error(
+                'Backend non configure. Editez public/config.js et renseignez APP_CONFIG.API_BASE_URL.'
+            );
+        }
+
         const response = await fetch(`${API_BASE_URL}/languages`);
         if (!response.ok) {
             throw new Error(`Erreur API langues (${response.status})`);
